@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">RvItemAnimaion</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus architecto culpa, cumque error facilis ipsam ipsum itaque laborum magnam minus mollitia nesciunt nihil pariatur rem sapiente tempore, ullam? Accusantium, quod.lorem</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+</resources>
