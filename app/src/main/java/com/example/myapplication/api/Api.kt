@@ -15,4 +15,13 @@ interface Api {
     fun getProfile(
         @Path("id") id:String
     ) : Call<Models>
+
+    @GET("balance/{id}")
+    fun getBalance(
+        @Path("id") id:String
+    ) : Call<Models>
+    @GET("history/{id}")
+    fun getHistory(
+        @Path("id") id:String
+    ):Call<List<Models>>
 }

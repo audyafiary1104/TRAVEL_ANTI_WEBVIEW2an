@@ -18,9 +18,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".TeamActivity"/>
         <activity android:name=".ActivityOne"/>
         <activity android:name=".Profile"/>
+        <activity android:name=".BalanceActivity"/>
+        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".TransferBalance"/>
 
     </application>
 

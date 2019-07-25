@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
-import androidx.cardview.widget.CardView
 import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
@@ -61,6 +60,25 @@ class MainActivity : AppCompatActivity() {
     private fun setSingleEvent(mainGrid: GridLayout) {
         //Loop all child item of Main Grid
         for (i in 0 until mainGrid.getChildCount()) {
+
+            tf_balance.setOnClickListener(object :View.OnClickListener{
+                override fun onClick(v: View?) {
+                    tfbalance()
+                }
+
+            })
+            history.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(v: View?) {
+                    getHistory()
+                }
+
+            })
+            my_balance.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(v: View?) {
+                        getBalance()
+                }
+
+            })
             //You can see , all child item is CardView , so we just cast object to CardView
             profile.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(v: View?) {
@@ -70,9 +88,32 @@ class MainActivity : AppCompatActivity() {
             })
         }
     }
+    private fun getBalance(){
+        var a =  share!!.readSetting("id")
+        var retrofit = Retrofit.Builder().baseUrl("http://172.16.10.56:8000/api/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val apake = retrofit.create(Api::class.java)
+        apake.getBalance("${a}").enqueue(object : Callback<Models>{
+            override fun onFailure(call: Call<Models>?, t: Throwable?) {
+                Log.e("TAG", "onFailure: "+t.toString() )
+
+            }
+
+            override fun onResponse(call: Call<Models>?, response: Response<Models>?) {
+                share!!.updateSetting("balance",response!!.body().balance)
+                startActivity(Intent(this@MainActivity,BalanceActivity::class.java))
+
+            }
+
+        })
+    }
+    private fun tfbalance(){
+        startActivity(Intent(this@MainActivity,TransferBalance::class.java))
+
+    }
     private fun ProfileId(){
        var a =  share!!.readSetting("id")
-        var retrofit = Retrofit.Builder().baseUrl("http://172.16.10.16:8000/api/")
+        var retrofit = Retrofit.Builder().baseUrl("http://172.16.10.56:8000/api/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             val apake = retrofit.create(Api::class.java)
         apake.getProfile("${a}").enqueue(object :Callback<Models>{
@@ -88,6 +129,34 @@ class MainActivity : AppCompatActivity() {
                 share!!.updateSetting("alamat",response!!.body().alamat)
                 startActivity(Intent(this@MainActivity,Profile::class.java))
             }
+
+        })
+    }
+    private fun getHistory(){
+        var a =  share!!.readSetting("id")
+        var retrofit = Retrofit.Builder().baseUrl("http://172.16.10.56:8000/api/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        var api = retrofit.create(Api::class.java)
+        api.getHistory("${a}").enqueue(object : Callback<List<Models>>{
+            override fun onFailure(call: Call<List<Models>>?, t: Throwable?) {
+                Log.e("TAG", "onFailure: "+t.toString() )
+            }
+
+            override fun onResponse(call: Call<List<Models>>?, response: Response<List<Models>>?) {
+
+                for (data in response!!.body()){
+                    share!!.updateSetting("check_in",data!!.check_in)
+                share!!.updateSetting("check_out",data!!.check_out)
+                share!!.updateSetting("first_name",data!!.first_name)
+                share!!.updateSetting("last_name",data.last_name)
+                share!!.updateSetting("jumlah_dibayar",data.jumlah_dibayar)
+                share!!.updateSetting("nama_hotels",data.nama_hotels)
+                share!!.updateSetting("nomor_booking",data.nomor_booking)
+                share!!.updateSetting("type_room",data.type_room)
+                    startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+                }
+            }
+
 
         })
     }

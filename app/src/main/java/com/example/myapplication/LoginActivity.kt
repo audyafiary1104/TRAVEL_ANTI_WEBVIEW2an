@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.myapplication.Models.Models
@@ -25,11 +28,28 @@ class LoginActivity : AppCompatActivity() {
     private var share: Shared? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         //for changing status bar icon colors
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         setContentView(R.layout.activity_login)
+//        editTextEmail.addTextChangedListener(object : TextWatcher{
+//            override fun afterTextChanged(s: Editable?) {
+//
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                var a = s.toString()
+//                var jumlah = a.toInt() + 1
+//                tvSample.setText(a)
+//            }
+//
+//        })
         share = Shared(this)
         cirLoginButton.setOnClickListener(object:View.OnClickListener {
             override fun onClick(v: View?) {
@@ -40,9 +60,10 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun kirimdata(){
 
+
         val username = editTextEmail.text.toString()
         val password = editTextPassword.text.toString()
-        val retrofit = Retrofit.Builder().baseUrl("http://172.16.10.16:8000/api/").addConverterFactory(GsonConverterFactory.create()).build()
+        val retrofit = Retrofit.Builder().baseUrl("http://172.16.10.56:8000/api/").addConverterFactory(GsonConverterFactory.create()).build()
         val apake = retrofit.create(Api::class.java)
         apake.Login("${username}","${password}")
             .enqueue(object :Callback<Models>{

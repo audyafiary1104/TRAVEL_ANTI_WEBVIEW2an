@@ -49,7 +49,7 @@
 
         <!-- Column 2 -->
         <androidx.cardview.widget.CardView
-
+            android:id="@+id/my_balance"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -92,6 +92,7 @@
 
         <!-- Column 1 -->
         <androidx.cardview.widget.CardView
+                android:id="@+id/history"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -140,6 +141,7 @@
             android:layout_marginRight="16dp"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
+            android:id="@+id/tf_balance"
             >
 
             <LinearLayout
